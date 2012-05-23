@@ -1,4 +1,4 @@
-# Ply. A company dashboard
+# Ply. A company dashboard.
 
 An attempt to make a dashboard suitable for large displays, personal computers and mobile devices where the server-side provides the initial frames and the data stream AND the client-side logic does the rest.
 
@@ -7,6 +7,8 @@ An attempt to make a dashboard suitable for large displays, personal computers a
 * Rails for the backend
 * MongoDB for the DB thingos, brought to you by Mogoid
 * EmberJS for the client-side
+
+The focus is on writing your apps in JavaScript (or CoffeeScript at some point) and only worrying about server side (Ruby) code for the web services. Browsers are awesome and fast and strong so let's take advantage of them.
 
 ## Frames
 
