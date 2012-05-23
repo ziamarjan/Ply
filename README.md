@@ -5,7 +5,7 @@ An attempt to make a dashboard suitable for large displays, personal computers a
 ## The focus
 
 * Rails for the backend
-* MongoDB for the DB thingos, brought to you by Mogoid
+* MongoDB for the DB thingos, brought to you by Mongoid
 * EmberJS for the client-side
 
 The focus is on writing your apps in JavaScript (or CoffeeScript at some point) and only worrying about server side (Ruby) code for the web services. Browsers are awesome and fast and strong so let's take advantage of them.
