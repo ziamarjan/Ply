@@ -14,4 +14,4 @@ The focus is on writing your apps in JavaScript (or CoffeeScript at some point) 
 
 Like a slide or page, a frame is a specific thing you want to show onscreen. It could be a fancy D3 graph, error logs or just the current time.
 
-You define them each as a controller, hopefully extended from FrameController. You declare your initial frame and then all the specific data services associated with that, when it comes time for the client side to load it your initial frame is brought in and all your relevant web services and polled.
+You define them each in a DSL fashion, inside app/frames you add your specific frame and declare the initial render to perform and any support web services (see app/frames/time). You declare your initial frame and then all the specific data services associated with that, when it comes time for the client side to load it your initial frame is brought in and all your relevant web services and polled.
