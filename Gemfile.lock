@@ -45,6 +45,7 @@ GEM
     execjs (1.4.0)
       multi_json (~> 1.0)
     fastthread (1.0.7)
+    haml (3.1.6)
     hike (1.2.1)
     i18n (0.6.0)
     journey (1.0.3)
@@ -120,6 +121,7 @@ PLATFORMS
 DEPENDENCIES
   bson_ext
   coffee-rails (~> 3.2.1)
+  haml
   jquery-rails
   mongoid
   passenger

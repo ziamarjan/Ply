@@ -22,5 +22,8 @@ end
 # The JScripts
 gem 'jquery-rails'
 
+# The view
+gem "haml"
+
 # Application running
 gem 'passenger'
