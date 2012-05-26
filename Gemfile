@@ -2,11 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.3'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
 # DB layer
-
 gem 'bson_ext'
 gem 'mongoid'
 
@@ -25,5 +21,5 @@ gem 'jquery-rails'
 # The view
 gem "haml"
 
-# Application running
+# Application daemon
 gem 'passenger'

@@ -7,6 +7,11 @@ Ply::Application.routes.draw do
     resources :frames, :as => :frames, :controller => :frames
   end
 
+  def root_resources
+    match "/" => "root#index"
+  end
+
+  root_resources
   frame_resources
 
 end

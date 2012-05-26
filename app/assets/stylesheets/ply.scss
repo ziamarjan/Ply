@@ -1,0 +1,26 @@
+$dark: #585858;
+
+body {
+  background-color: $dark;
+
+  #logo_area {
+    background-image: image-url("ply.png");
+    background-size: 109px 50px;
+    width: 109px;
+    height: 50px;
+
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+}
+
+body.retina {
+  #logo_area {
+    background-image: image-url("ply@2x.png");
+    width: 109px;
+    height: 50px;
+  }
+}
