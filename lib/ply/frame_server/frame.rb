@@ -2,11 +2,13 @@ module Ply
   module FrameServer
     class Frame
 
-      attr_accessor :main_block, :supporting_services, :template_name, :name, :priority, :views
+      attr_accessor :main_block, :supporting_services, :template_name, :name, :priority, :views, :update_every, :show_for
 
       def initialize(args = {})
         self.supporting_services = {}
         self.views = {}
+        self.update_every = 0
+        self.show_for = 30.seconds
 
         self.name = args[:name] unless args[:name].nil?
         self.template_name = (args[:name].nil? ? args[:template_name] : args[:name])

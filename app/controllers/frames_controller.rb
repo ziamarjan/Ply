@@ -1,6 +1,6 @@
 class FramesController < ApplicationController
 
-  before_filter :populate_frame, :only => [:run_frame, :services_for_frame, :templates_for_frame]
+  before_filter :populate_frame, :only => [:run_frame, :services_for_frame, :templates_for_frame, :info]
 
   def populate_frame
     frame_target = (params[:frame_name].respond_to?(:to_sym) ? params[:frame_name].to_sym : nil)
@@ -24,6 +24,8 @@ class FramesController < ApplicationController
   def run_frame
     instance_eval(&frame.main_block)
 
+    @auto_load = false
+
     render "/#{frame.template_name}", :layout => !(@no_layout) ? true : false
   end
 
@@ -42,5 +44,14 @@ class FramesController < ApplicationController
     @templates = frame.views
 
     render :templates_for_frame, :layout => false
+  end
+
+  def info
+    res = {:frame_class_name => frame.name.to_s.classify, :update_every => frame.update_every, :show_for => frame.show_for}
+
+    respond_to do |format|
+      format.json { render :json => res.to_json }
+      format.xml { render :xml => res.to_xml(:root => :services) }
+    end    
   end
 end

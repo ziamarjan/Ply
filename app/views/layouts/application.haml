@@ -9,6 +9,6 @@
     =javascript_include_tag "frame_assets"
     =csrf_meta_tags
   %body
-    #content_area
+    #content_area{:"data-default-to-frame" => @auto_load.eql?(false) ? @frame.name : ""}
       =yield
     #logo_area

@@ -23,3 +23,6 @@ gem "haml"
 
 # Application daemon
 gem 'passenger'
+
+# Helpers
+gem 'nokogiri'

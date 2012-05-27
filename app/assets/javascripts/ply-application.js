@@ -21,11 +21,25 @@ var Ply = (function(Ply) {
                    data:       {app: this_model.getProperties(this_model.publicAttributes)},
                    dataType:  'json',
                    success:   function(result) {
-                                this_model.set("frameClassName", result.frame_class_name);
                                 this_model.set('currentFrame', result.next_frame);
+                                this_model.populateInfoFromServer();
                               },
                    async:     false
           });
+        },
+        populateInfoFromServer: function() {
+          var this_model = this;
+          jQuery.ajax({
+                   url:       '/frames/info',
+                   data:       {app: this_model.getProperties(this_model.publicAttributes)},
+                   dataType:  'json',
+                   success:   function(result) {
+                                this_model.set("frameClassName", result.frame_class_name);
+                                this_model.set("updateEvery", result.update_every);
+                                this_model.set("showFor", result.show_for);
+                              },
+                   async:     false
+          });          
         }
       });
     }
@@ -54,16 +68,47 @@ var Ply = (function(Ply) {
       // need observers for this model
       Ply.Application.bindAppModelObservers();
 
-      window.App.moveToNextFrame();
+      if ($("#content_area").data('default-to-frame').length > 0)
+        window.App.set('currentFrame', $("#content_area").data('default-to-frame'));
+      else
+        window.App.moveToNextFrame();
     }
 
 
     this.bindAppModelObservers = function() {
       window.App.addObserver('currentFrame', Ply.Application.bringFrameIntoView);
+      window.App.addObserver('updateEvery', Ply.Application.bindUpdateServices);
+      window.App.addObserver('currentFrame', Ply.Application.bindFrameMover);
+    }
+
+    this.bindFrameMover = function(payload) {
+      setTimeout(Ply.Application.runFrameMove, (payload.showFor * 1000));
+    }
+
+    this.runFrameMove = function() {
+      window.App.moveToNextFrame();
+    }
+
+    this.bindUpdateServices = function(payload) {
+      if (!(window.App.updateServicesIntervalId === undefined))
+        clearInterval(window.App.updateServicesIntervalId);
+
+      if (window.App.updateEvery > 0) {
+        window.App.updateServicesIntervalId = setInterval(Ply.Application.updateServices, (window.App.updateEvery * 1000));
+      }
+    }
+
+    this.updateServices = function(payload) {
+      window.App.currentFrameObj.populateServices();
     }
 
     this.bringFrameIntoView = function(app_model) {
-      // pull in the Mustache templates
+      // shut down current frame
+      if (!(Ply.Application.activeObserver === undefined))
+        Ply.Application.activeObserver.bumpOut(app_model);
+
+      // bring in new info
+      window.App.populateInfoFromServer();
 
       // clear out old
       var head_target = $("head");
@@ -123,6 +168,7 @@ var Ply = (function(Ply) {
 
       if (!(ns === undefined)) {
         ns.frameReady({model: window.App.currentFrameObj});
+        Ply.Application.activeObserver = ns;
       }
     }
   };

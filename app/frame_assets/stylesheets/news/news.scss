@@ -1,0 +1,50 @@
+$black: #252525;
+$white: white;
+$font: Helvetica, arial, freesans, clean, sans-serif;
+
+#news_box .title {
+  background-color: $black;
+  color: $white;
+
+  font-family: $font;
+  font-size: 40pt;
+
+  margin-top: 10px;
+  padding: 10px;
+
+  border: 2px solid lighten($black, 60%);
+  border-radius: 20px;
+}
+
+#news_items {
+}
+
+#news_items ul {
+  margin-left: 0px;
+  padding-left: 0;
+}
+
+#news_items ul li {
+  font-family: $font;
+  color: $white;
+  font-size: 15pt;
+
+  list-style-type: none;
+
+  background-color: lighten($black, 5%);
+
+  margin-bottom: 19px;
+  padding: 5px;
+  padding-left: 10px;
+
+  border: 2px solid lighten($black, 40%);
+  border-radius: 20px;
+
+  z-index: 10;
+}
+
+#news_items ul li .description {
+  color: darken($white, 40%);
+  margin-left: 10px;
+  font-size: 13pt;
+}

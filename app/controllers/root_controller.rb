@@ -17,5 +17,4 @@ class RootController < ApplicationController
       format.xml { render :xml => res.to_xml(:root => :response) }
     end
   end
-
 end

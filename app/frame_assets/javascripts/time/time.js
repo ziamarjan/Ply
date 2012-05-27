@@ -28,7 +28,11 @@ Ply.FrameObservers.TimeObserver = new function() {
     view.appendTo("#time_placeholder");
 
     // setup to update time every X
-    Ply.FrameObservers.TimeObserver.updateTimer = setInterval(Ply.FrameObservers.TimeObserver.updateModelTime, 5);
+    Ply.FrameObservers.TimeObserver.updateTimer = setInterval(Ply.FrameObservers.TimeObserver.updateModelTime, 5 * 1000);
+  }
+
+  this.bumpOut = function(payload) {
+    clearInterval(Ply.FrameObservers.TimeObserver.updateTimer);
   }
 
   this.updateModelTime = function() {
