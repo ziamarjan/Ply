@@ -1,0 +1,20 @@
+$white: white;
+$black: black;
+$font: Helvetica, arial, freesans, clean, sans-serif;
+
+#time-display {
+  color: $white;
+  background-color: $black;
+  width: 510px;
+
+  text-align:center;
+  font-size: 120pt;
+  font-family: $font;
+
+  border-radius: 25px;
+  border: 2px solid lighten($black, 60%);
+
+  margin:0 auto;
+  margin-top: 20%;
+  top: 25%;
+}

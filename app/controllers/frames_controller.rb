@@ -1,13 +1,20 @@
 class FramesController < ApplicationController
 
-  before_filter :populate_frame, :only => [:run_frame, :services_for_frame]
+  before_filter :populate_frame, :only => [:run_frame, :services_for_frame, :templates_for_frame]
 
   def populate_frame
-    frame_target = params[:frame_name].to_sym
+    frame_target = (params[:frame_name].respond_to?(:to_sym) ? params[:frame_name].to_sym : nil)
+    if frame_target.nil? && params[:app].present?
+      frame_target = (params[:app][:currentFrame].to_sym rescue nil)
+    end
+
+    @no_layout = request.params[:layout].eql?("false")
 
     @frame = Ply::FrameServer::Base.frames[frame_target]
 
     raise ActionController::RoutingError.new('Not Found') if @frame.nil?
+
+    @frame_name = @frame.name
   end
 
   def frame
@@ -17,7 +24,7 @@ class FramesController < ApplicationController
   def run_frame
     instance_eval(&frame.main_block)
 
-    render frame.template_name
+    render "/#{frame.template_name}", :layout => !(@no_layout) ? true : false
   end
 
   def services_for_frame
@@ -29,5 +36,11 @@ class FramesController < ApplicationController
       format.json { render :json => res.to_json }
       format.xml { render :xml => res.to_xml(:root => :services) }
     end
+  end
+
+  def templates_for_frame
+    @templates = frame.views
+
+    render :templates_for_frame, :layout => false
   end
 end

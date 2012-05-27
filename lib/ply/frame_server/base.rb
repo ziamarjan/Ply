@@ -10,6 +10,21 @@ module Ply
         end
       end
 
+      def self.attach_to_rails
+        ActionController::Base.prepend_view_path "app/frame_views"
+        asset_names = ['images', 'stylesheets', 'javascripts'];
+
+        asset_names.each { |asset_folder| Rails.configuration.assets.paths << Rails.root.join('app', 'frame_assets', asset_folder) }
+
+        Rails.configuration.assets.paths << Rails.root.join('app', 'frame_assets', 'javascripts')
+        Rails.configuration.assets.paths << Rails.root.join('app', 'frame_assets', 'stylesheets')
+        Rails.configuration.assets.precompile += %w( frame_assets.js )
+        Rails.configuration.assets.precompile += %w( frame_assets.css )
+        self.frames.each do |frame_name, frame_obj|
+          asset_names.each { |asset_folder| Rails.configuration.assets.paths << Rails.root.join('app', 'frame_assets', asset_folder, frame_name.to_s) }
+        end
+      end
+
       def self.frame(sym_name, opts = {}, &block)
         sym_name = sym_name.to_sym
         new_frame = Frame.new(:name => sym_name)
