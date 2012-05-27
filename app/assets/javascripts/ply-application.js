@@ -104,8 +104,10 @@ var Ply = (function(Ply) {
 
     this.bringFrameIntoView = function(app_model) {
       // shut down current frame
-      if (!(Ply.Application.activeObserver === undefined))
+      if (!(Ply.Application.activeObserver === undefined)) {
         Ply.Application.activeObserver.bumpOut(app_model);
+        clearInterval(window.App.updateServicesIntervalId);
+      }
 
       // bring in new info
       window.App.populateInfoFromServer();
