@@ -1,0 +1,16 @@
+<div class="weather_item">
+  <div class="status">
+    {{current}}
+  </div>
+</div>
+
+{{#each future}}
+<div class="weather_item">
+  <div class="status">
+    {{high}}
+  </div>
+  <div class="byline">
+    {{day}}
+  </div>
+</div>
+{{/each}}

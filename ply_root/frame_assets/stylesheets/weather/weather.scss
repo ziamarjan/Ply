@@ -1,0 +1,55 @@
+$white: #e4f5fe;
+$blue: #0571ab;
+$font: Helvetica, arial, freesans, clean, sans-serif;
+
+#weather_placeholder {
+  background-color: $blue;
+  width: 60%;
+  height: 300px;
+  left: 20%;
+  top: 20%;
+
+  position: absolute;
+
+  border-radius: 25px;
+  border: 2px solid lighten($blue, 60%);
+
+  -moz-box-shadow: 5px 5px 24px darken($blue, 30%);
+  -webkit-box-shadow: 5px 5px 24px darken($blue, 30%);
+  box-shadow: 5px 5px 24px darken($blue, 30%);
+}
+
+#weather_placeholder #weather_box {
+  background-color: darken($blue, 10%);
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+
+  padding: 8px;
+  padding-left: 10px;
+
+  margin-bottom: 20px;
+
+  color: $white;
+  font-family: $font;
+  font-size: 29pt;
+
+}
+
+#weather_status {
+  text-align: center;
+}
+
+#weather_status .weather_item {
+  vertical-align: top;
+  display: inline-block;
+
+  font-size: 70pt;
+  font-family: $font;
+  color: $white;
+
+  width: 150px;
+
+  .byline {
+    font-size: 25pt;
+  }
+}
