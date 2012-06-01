@@ -140,6 +140,8 @@ var Ply = (function(Ply) {
       });
 
       // place view content in
+      $("#content_area").attr("id", "previous_content");
+      $("body").prepend("<div id=\"content_area\" style=\"display: none\"></div>")
       $("#content_area").html(content);
 
       // construct model for this frame (there must be a better way)
@@ -172,6 +174,16 @@ var Ply = (function(Ply) {
         ns.frameReady({model: window.App.currentFrameObj});
         Ply.Application.activeObserver = ns;
       }
+
+      $("#previous_content").fadeOut('slow', Ply.Application.showNewContent);
+    }
+
+    this.showNewContent = function() {
+      $("#content_area").fadeIn('slow', Ply.Application.wipePreviousContent);
+    }
+
+    this.wipePreviousContent = function() {
+      $("#previous_content").empty();
     }
   };
 

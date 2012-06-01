@@ -1,6 +1,7 @@
 frame :time do |f|
 
   f.priority = 99
+  f.show_for = 10.seconds
 
   f.index do
     @time_zone_offset = Time.zone.utc_offset

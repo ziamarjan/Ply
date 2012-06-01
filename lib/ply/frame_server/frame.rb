@@ -26,7 +26,7 @@ module Ply
       end
 
       def cache_views!
-        target = "#{Rails.root}/app/frame_templates/#{self.name}"
+        target = "#{Ply::FrameServer::Base.ply_root}/frame_templates/#{self.name}"
         Dir.glob("#{target}/*.mustache").each do |template|
           extract = template.match(%r{#{target}/(.*)[.]mustache})
           unless extract[1].nil?

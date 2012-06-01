@@ -1,7 +1,8 @@
 frame :news do |f|
 
   f.priority = 90
-  f.update_every = 20.seconds # seconds
+  f.update_every = 1.minute # seconds
+  f.show_for = 90.seconds
 
   f.index do
   end

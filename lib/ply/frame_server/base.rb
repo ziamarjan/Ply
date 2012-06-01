@@ -3,25 +3,29 @@ require 'ply/frame_server/frame'
 module Ply
   module FrameServer
     module Base
+      def self.ply_root
+        defined?(@ply_root).nil? ? File.absolute_path("#{Rails.root}/ply_root") : @ply_root
+      end
+
       def self.load_frames
-        target = "#{Rails.root}/app/frames"
+        target = "#{ply_root}/frames"
         Dir.glob("#{target}/*.rb").each do |file|
           load file
         end
       end
 
       def self.attach_to_rails
-        ActionController::Base.prepend_view_path "app/frame_views"
+        ActionController::Base.prepend_view_path "#{ply_root}/frame_views"
         asset_names = ['images', 'stylesheets', 'javascripts'];
 
-        asset_names.each { |asset_folder| Rails.configuration.assets.paths << Rails.root.join('app', 'frame_assets', asset_folder) }
+        asset_names.each { |asset_folder| Rails.configuration.assets.paths <<  "#{ply_root}/frame_assets/#{asset_folder}" }
 
         Rails.configuration.assets.paths << Rails.root.join('app', 'frame_assets', 'javascripts')
         Rails.configuration.assets.paths << Rails.root.join('app', 'frame_assets', 'stylesheets')
         Rails.configuration.assets.precompile += %w( frame_assets.js )
         Rails.configuration.assets.precompile += %w( frame_assets.css )
         self.frames.each do |frame_name, frame_obj|
-          asset_names.each { |asset_folder| Rails.configuration.assets.paths << Rails.root.join('app', 'frame_assets', asset_folder, frame_name.to_s) }
+          asset_names.each { |asset_folder| Rails.configuration.assets.paths << "#{ply_root}/frame_assets/#{asset_folder}/#{frame_name.to_s}" }
         end
       end
 
