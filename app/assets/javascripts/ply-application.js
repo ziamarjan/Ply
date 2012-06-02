@@ -3,7 +3,7 @@ var Ply = (function(Ply) {
   Ply.Models = new function() {
     this.buildModels = function() {
       Ply.Models.Serializable = Ember.Object.extend({
-        publicAttributes: ["currentFrame"],
+        publicAttributes: ["currentBoard"],
         asObject: function() {
           return this.getProperties(this.publicAttributes);
         }
@@ -11,17 +11,17 @@ var Ply = (function(Ply) {
 
 
       Ply.Models.ApplicationModel = Ply.Models.Serializable.extend({
-        publicAttributes: ["currentFrame"],
-        currentFrame: "",
-        frameClassName: "",
-        moveToNextFrame: function() {
+        publicAttributes: ["currentBoard"],
+        currentBoard: "",
+        boardClassName: "",
+        moveToNextBoard: function() {
           var this_model = this;
           jQuery.ajax({
-                   url:       '/info/next_frame',
+                   url:       '/info/next_board',
                    data:       {app: this_model.getProperties(this_model.publicAttributes)},
                    dataType:  'json',
                    success:   function(result) {
-                                this_model.set('currentFrame', result.next_frame);
+                                this_model.set('currentBoard', result.next_board);
                                 this_model.populateInfoFromServer();
                               },
                    async:     false
@@ -30,11 +30,11 @@ var Ply = (function(Ply) {
         populateInfoFromServer: function() {
           var this_model = this;
           jQuery.ajax({
-                   url:       '/frames/info',
+                   url:       '/boards/info',
                    data:       {app: this_model.getProperties(this_model.publicAttributes)},
                    dataType:  'json',
                    success:   function(result) {
-                                this_model.set("frameClassName", result.frame_class_name);
+                                this_model.set("boardClassName", result.board_class_name);
                                 this_model.set("updateEvery", result.update_every);
                                 this_model.set("showFor", result.show_for);
                               },
@@ -45,11 +45,11 @@ var Ply = (function(Ply) {
     }
   }
 
-  Ply.Models.FrameModels = new function() {
+  Ply.Models.BoardModels = new function() {
 
   }
 
-  Ply.FrameObservers = new function() {
+  Ply.BoardObservers = new function() {
 
   }
 
@@ -68,25 +68,25 @@ var Ply = (function(Ply) {
       // need observers for this model
       Ply.Application.bindAppModelObservers();
 
-      if ($("#content_area").data('default-to-frame').length > 0)
-        window.App.set('currentFrame', $("#content_area").data('default-to-frame'));
+      if ($("#content_area").data('default-to-board').length > 0)
+        window.App.set('currentBoard', $("#content_area").data('default-to-board'));
       else
-        window.App.moveToNextFrame();
+        window.App.moveToNextBoard();
     }
 
 
     this.bindAppModelObservers = function() {
-      window.App.addObserver('currentFrame', Ply.Application.bringFrameIntoView);
+      window.App.addObserver('currentBoard', Ply.Application.bringBoardIntoView);
       window.App.addObserver('updateEvery', Ply.Application.bindUpdateServices);
-      window.App.addObserver('currentFrame', Ply.Application.bindFrameMover);
+      window.App.addObserver('currentBoard', Ply.Application.bindBoardMover);
     }
 
-    this.bindFrameMover = function(payload) {
-      setTimeout(Ply.Application.runFrameMove, (payload.showFor * 1000));
+    this.bindBoardMover = function(payload) {
+      setTimeout(Ply.Application.runBoardMove, (payload.showFor * 1000));
     }
 
-    this.runFrameMove = function() {
-      window.App.moveToNextFrame();
+    this.runBoardMove = function() {
+      window.App.moveToNextBoard();
     }
 
     this.bindUpdateServices = function(payload) {
@@ -99,11 +99,11 @@ var Ply = (function(Ply) {
     }
 
     this.updateServices = function(payload) {
-      window.App.currentFrameObj.populateServices();
+      window.App.currentBoardObj.populateServices();
     }
 
-    this.bringFrameIntoView = function(app_model) {
-      // shut down current frame
+    this.bringBoardIntoView = function(app_model) {
+      // shut down current board
       if (!(Ply.Application.activeObserver === undefined)) {
         Ply.Application.activeObserver.bumpOut(app_model);
         clearInterval(window.App.updateServicesIntervalId);
@@ -118,7 +118,7 @@ var Ply = (function(Ply) {
 
       // grab templates for new
       jQuery.ajax({
-               url:       '/frames/templates?layout=false',
+               url:       '/boards/templates?layout=false',
                data:       {app: window.App.getProperties(window.App.publicAttributes)},
                dataType:  'html',
                success:   function(result) {
@@ -130,7 +130,7 @@ var Ply = (function(Ply) {
       // bring in initial view
       var content = "";
       jQuery.ajax({
-               url:       '/frames/view?layout=false',
+               url:       '/boards/view?layout=false',
                data:       {app: window.App.getProperties(window.App.publicAttributes)},
                dataType:  'html',
                success:   function(result) {
@@ -144,16 +144,16 @@ var Ply = (function(Ply) {
       $("body").prepend("<div id=\"content_area\" style=\"display: none\"></div>")
       $("#content_area").html(content);
 
-      // construct model for this frame (there must be a better way)
-      var new_model = eval("Ply.Models.FrameModels." + window.App.frameClassName + " = Ply.Models.Serializable.extend()");
+      // construct model for this board (there must be a better way)
+      var new_model = eval("Ply.Models.BoardModels." + window.App.boardClassName + " = Ply.Models.Serializable.extend()");
 
       // fetch services and instantiate
-      window.App.currentFrameObj = new_model.create({
-        publicAttributes: ["currentFrame"],
+      window.App.currentBoardObj = new_model.create({
+        publicAttributes: ["currentBoard"],
         populateServices: function() {
           var this_model = this;
           jQuery.ajax({
-                   url:       '/frames/services',
+                   url:       '/boards/services',
                    data:       {app: this_model.getProperties(this_model.publicAttributes)},
                    dataType:  'json',
                    success:   function(result) {
@@ -164,14 +164,14 @@ var Ply = (function(Ply) {
         }
       });
 
-      window.App.currentFrameObj.set("currentFrame", window.App.currentFrame);
-      window.App.currentFrameObj.populateServices();
+      window.App.currentBoardObj.set("currentBoard", window.App.currentBoard);
+      window.App.currentBoardObj.populateServices();
 
       // notify respective namespace
-      var ns = Ply.FrameObservers[window.App.frameClassName + "Observer"];
+      var ns = Ply.BoardObservers[window.App.boardClassName + "Observer"];
 
       if (!(ns === undefined)) {
-        ns.frameReady({model: window.App.currentFrameObj});
+        ns.boardReady({model: window.App.currentBoardObj});
         Ply.Application.activeObserver = ns;
       }
 

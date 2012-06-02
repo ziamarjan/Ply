@@ -1,6 +1,6 @@
 module Ply
-  module FrameServer
-    class Frame
+  module BoardServer
+    class Board
 
       attr_accessor :main_block, :supporting_services, :template_name, :name, :priority, :views, :update_every, :show_for
 
@@ -26,7 +26,7 @@ module Ply
       end
 
       def cache_views!
-        target = "#{Ply::FrameServer::Base.ply_root}/frame_templates/#{self.name}"
+        target = "#{Ply::BoardServer::Base.ply_root}/board_templates/#{self.name}"
         Dir.glob("#{target}/*.mustache").each do |template|
           extract = template.match(%r{#{target}/(.*)[.]mustache})
           unless extract[1].nil?

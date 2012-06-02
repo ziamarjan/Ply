@@ -4,12 +4,12 @@
     %title
       Ply
     =stylesheet_link_tag    "application", :media => "all"
-    =stylesheet_link_tag    "frame_assets", :media => "all"
+    =stylesheet_link_tag    "board_assets", :media => "all"
     =javascript_include_tag "application"
-    =javascript_include_tag "frame_assets"
+    =javascript_include_tag "board_assets"
     =csrf_meta_tags
   %body
-    #content_area{:"data-default-to-frame" => @auto_load.eql?(false) ? @frame.name : ""}
+    #content_area{:"data-default-to-board" => @auto_load.eql?(false) ? @board.name : ""}
       =yield
     #transition_area
     #logo_area

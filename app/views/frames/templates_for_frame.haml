@@ -1,4 +1,0 @@
--@templates.each do |template_name, contents|
-  -template_name = template_name.to_s.gsub(/_/, "-")
-  %script{:type => "text/x-handlebars", :"data-template-specific" => true, :"data-template-name" => "#{@frame_name}-#{template_name}"}
-    =raw contents

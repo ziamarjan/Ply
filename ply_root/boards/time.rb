@@ -1,4 +1,4 @@
-frame :time do |f|
+board :time do |f|
 
   f.priority = 99
   f.show_for = 10.seconds

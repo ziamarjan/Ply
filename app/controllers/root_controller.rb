@@ -3,14 +3,14 @@ class RootController < ApplicationController
     
   end
 
-  def next_frame
+  def next_board
 
     application_view_model = params[:app] || {}
 
-    current_frame = application_view_model[:currentFrame]
-    Rails.logger.debug("Received information from App view model, current frame is #{current_frame}")
-    next_frame_name = Ply::FrameServer::Base.next_frame(current_frame)
-    res = {:next_frame => next_frame_name, :frame_class_name => next_frame_name.to_s.classify}
+    current_board = application_view_model[:currentBoard]
+    Rails.logger.debug("Received information from App view model, current board is #{current_board}")
+    next_board_name = Ply::BoardServer::Base.next_board(current_board)
+    res = {:next_board => next_board_name, :board_class_name => next_board_name.to_s.classify}
 
     respond_to do |format|
       format.json { render :json => res.to_json(:root => :response) }
