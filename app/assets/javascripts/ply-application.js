@@ -207,7 +207,7 @@ var Ply = (function(Ply) {
     }
 
     this.wipePreviousContent = function() {
-      $("#previous_content").empty();
+      $("#previous_content").remove();
     }
   };
 

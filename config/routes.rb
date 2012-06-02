@@ -18,7 +18,7 @@ Ply::Application.routes.draw do
   def root_resources
     root :to => "root#index"
 
-    match "/info/next_board" => "root#next_board"
+    match "/info/checkin" => "root#checkin"
   end
 
   root_resources
