@@ -33,6 +33,7 @@ module Ply
         sym_name = sym_name.to_sym
         new_board = Board.new(:name => sym_name)
         new_board.instance_eval(&block)
+        new_board.finish_off!
         boards[sym_name] = new_board
       end
 
@@ -41,8 +42,10 @@ module Ply
         @boards
       end
 
-      def self.next_board(current)
-        ordered_boards = boards.values.sort{|a,b| b.priority <=> a.priority}.map(&:name)
+      def self.next_board(current, opts = {})
+        user_obj = opts[:user]
+        allow_boards = boards.values.select {|b| b.can_view?(user_obj) && b.show.eql?(true)}
+        ordered_boards = allow_boards.sort{|a,b| b.priority <=> a.priority}.map(&:name)
 
         cur_index = 0
         if current.respond_to?(:to_sym)

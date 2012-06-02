@@ -2,13 +2,18 @@ module Ply
   module BoardServer
     class Board
 
-      attr_accessor :main_block, :supporting_services, :template_name, :name, :priority, :views, :update_every, :show_for
+      attr_accessor :main_block, :supporting_services, :template_name, 
+      :name, :priority, :views, :update_every, :show_for, :auth_required, :groups_allowed,
+      :show
 
       def initialize(args = {})
         self.supporting_services = {}
         self.views = {}
         self.update_every = 0
         self.show_for = 30.seconds
+        self.auth_required = false
+        self.groups_allowed = []
+        self.show = false
 
         self.name = args[:name] unless args[:name].nil?
         self.template_name = (args[:name].nil? ? args[:template_name] : args[:name])
@@ -34,6 +39,27 @@ module Ply
             self.views[template_name] = File.open(template) { |file| file.read }
           end
         end
+      end
+
+      def requires_auth?
+        self.auth_required.eql?(true) || self.groups_allowed.length > 0
+      end
+
+      def finish_off!
+        standardise_groups!
+      end
+
+      def standardise_groups!
+        self.groups_allowed = self.groups_allowed.map {|g| g.to_sym}
+      end
+
+      def can_view?(user_obj)
+        return true if self.auth_required.eql?(false) || self.groups_allowed.empty?
+
+        return false if user_obj.nil?
+
+        self.groups_allowed.each {|g| return true if user_obj.groups.include?(g)}
+        false
       end
 
     end

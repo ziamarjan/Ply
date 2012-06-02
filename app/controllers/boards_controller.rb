@@ -14,6 +14,15 @@ class BoardsController < ApplicationController
 
     raise ActionController::RoutingError.new('Not Found') if @board.nil?
 
+    if current_user.nil? && @board.requires_auth?
+      authenticate_user!
+    else @board.requires_auth?
+      unless @board.can_view?(current_user)
+        head :forbidden
+        ActionController::RoutingError.new('Forbidden')
+      end
+    end
+
     @board_name = @board.name
   end
 
