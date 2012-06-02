@@ -1,25 +1,25 @@
 Ply::Application.routes.draw do
 
-  def frame_resources
-    match "/frame/:frame_name" => "frames#run_frame"
+  def board_resources
+    match "/board/:board_name" => "boards#run_board"
 
-    match "/frame/:frame_name/templates" => "frames#templates_for_frame"
-    match "/frame/:frame_name/services" => "frames#services_for_frame"
-    match "/frame/:frame_name/info" => "frames#info"
+    match "/board/:board_name/templates" => "boards#templates_for_board"
+    match "/board/:board_name/services" => "boards#services_for_board"
+    match "/board/:board_name/info" => "boards#info"
 
-    match "/frames/templates" => "frames#templates_for_frame"
-    match "/frames/services" => "frames#services_for_frame"
-    match "/frames/view" => "frames#run_frame"
-    match "/frames/info" => "frames#info"
+    match "/boards/templates" => "boards#templates_for_board"
+    match "/boards/services" => "boards#services_for_board"
+    match "/boards/view" => "boards#run_board"
+    match "/boards/info" => "boards#info"
   end
 
   def root_resources
     match "/" => "root#index"
 
-    match "/info/next_frame" => "root#next_frame"
+    match "/info/next_board" => "root#next_board"
   end
 
   root_resources
-  frame_resources
+  board_resources
 
 end

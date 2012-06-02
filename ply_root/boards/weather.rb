@@ -1,4 +1,4 @@
-frame :weather do |f|
+board :weather do |f|
 
   f.priority = 80
   f.show_for = 10.seconds

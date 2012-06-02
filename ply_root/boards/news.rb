@@ -1,4 +1,4 @@
-frame :news do |f|
+board :news do |f|
 
   f.priority = 5
   f.update_every = 1.minute # seconds

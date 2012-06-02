@@ -1,5 +1,5 @@
-Ply.FrameObservers.TimeObserver = new function() {
-  this.frameReady = function(payload) {
+Ply.BoardObservers.TimeObserver = new function() {
+  this.boardReady = function(payload) {
     // extend existing model
     var model = payload.model;
     model.set('hour', function() {
@@ -24,18 +24,18 @@ Ply.FrameObservers.TimeObserver = new function() {
 
     var view = TimeView.create();
     view.updateTime();
-    Ply.FrameObservers.TimeObserver.activeView = view;
+    Ply.BoardObservers.TimeObserver.activeView = view;
     view.appendTo("#time_placeholder");
 
     // setup to update time every X
-    Ply.FrameObservers.TimeObserver.updateTimer = setInterval(Ply.FrameObservers.TimeObserver.updateModelTime, 5 * 1000);
+    Ply.BoardObservers.TimeObserver.updateTimer = setInterval(Ply.BoardObservers.TimeObserver.updateModelTime, 5 * 1000);
   }
 
   this.bumpOut = function(payload) {
-    clearInterval(Ply.FrameObservers.TimeObserver.updateTimer);
+    clearInterval(Ply.BoardObservers.TimeObserver.updateTimer);
   }
 
   this.updateModelTime = function() {
-    Ply.FrameObservers.TimeObserver.activeView.updateTime();
+    Ply.BoardObservers.TimeObserver.activeView.updateTime();
   }
 }

@@ -1,3 +1,3 @@
-require 'ply/frame_server/base'
-Ply::FrameServer::Base.load_frames
-Ply::FrameServer::Base.attach_to_rails
+require 'ply/board_server/base'
+Ply::BoardServer::Base.load_boards
+Ply::BoardServer::Base.attach_to_rails
