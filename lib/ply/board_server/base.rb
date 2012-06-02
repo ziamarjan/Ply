@@ -4,6 +4,7 @@ module Ply
   module BoardServer
     module Base
       def self.ply_root
+        @ply_root = ENV['PLY_ROOT'] if ENV['PLY_ROOT'].present?
         defined?(@ply_root).nil? ? File.absolute_path("#{Rails.root}/ply_root") : @ply_root
       end
 

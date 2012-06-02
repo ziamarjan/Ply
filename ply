@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby -w
+require 'optparse'
+
+cur_location = File.dirname(__FILE__)
+
+
+options = {:port => 3000, :environment => :production, :ply_root => cur_location}
+OptionParser.new do |opts|
+  opts.banner = "Usage: ply [options]"
+
+  opts.on("-p", "--port PORT", Integer, "Web application port") do |p|
+    options[:port] = p
+  end
+  opts.on("-d", "--development", "Start in development mode") do |p|
+    options[:environment] = :development
+  end
+  opts.on("-r", "--ply_root ROOT", String, "Location of Ply boards") do |p|
+    options[:ply_root] = p
+  end
+end.parse!
+
+puts "Starting ply with #{options}" if options[:environment].eql?(:development)
+
+command = options[:environment].eql?(:production) ? "rake -f #{cur_location}/Rakefile assets:precompile && " : ""
+
+unless options[:ply_root].eql?(".")
+  command << "PLY_ROOT='#{options[:ply_root]}' "
+end
+
+if !(Gem::Specification.find_all_by_name("passenger").empty?)
+  command << "passenger start -e #{options[:environment].to_s} -R #{cur_location}/config.ru"
+elsif !(Gem::Specification.find_all_by_name("passenger").empty?)
+  command << "thin start -R #{cur_location}/config.ru -e #{options[:environment].to_s}"
+else
+  command << "rails s -c #{cur_location}/config.ru -e #{options[:environment].to_s}"
+end
+
+exec command
