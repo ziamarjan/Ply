@@ -1,0 +1,12 @@
+development:
+  host: localhost
+  database: ply_development
+
+test:
+  host: localhost
+  database: ply_test
+
+# set these environment variables on your prod server
+production:
+  host: localhost
+  database: ply_production
