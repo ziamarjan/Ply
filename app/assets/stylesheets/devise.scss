@@ -1,0 +1,52 @@
+$yellow: #d7edd7;
+$textcolour: #343434;
+$font: 'Droid Sans', sans-serif;
+
+body {
+
+  input[type="text"], input[type="password"], input[type="email"] {
+    font-size: 13pt;
+    color: lighten($textcolour, 5%);
+    border: 1px solid lighten($textcolour, 20%);
+  }
+
+  input[type="submit"] {
+    font-size: 15pt;
+  }
+
+  #devise_area {
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    width: 40%;
+
+    padding: 10px;
+
+    background-color: $yellow;
+    color: $textcolour;
+
+    font-family: $font;
+
+    border-radius: 20px;
+    border: 2px solid lighten($yellow, 10%);
+    -moz-box-shadow: 5px 5px 24px darken($yellow, 80%);
+    -webkit-box-shadow: 5px 5px 24px darken($yellow, 80%);
+    box-shadow: 5px 5px 24px darken($yellow, 80%);
+
+    h2 {
+      padding-bottom: 10px;
+      border-bottom: 2px solid lighten($yellow, 4%);
+    }
+
+    table tr td.label {
+      padding-right: 10%;
+    }
+
+    .links {
+      margin-top: 10px;
+      padding-top: 10px;
+
+      border-top: 1px solid lighten($yellow, 3%);
+    }
+  }
+}

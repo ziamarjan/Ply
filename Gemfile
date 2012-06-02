@@ -4,7 +4,10 @@ gem 'rails', '3.2.3'
 
 # DB layer
 gem 'bson_ext'
-gem 'mongoid'
+gem 'mongoid', ">= 3.0.0.rc"
+
+# Auth layer
+gem 'devise'
 
 # Assets compilation
 group :assets do

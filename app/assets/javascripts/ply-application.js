@@ -67,10 +67,10 @@ var Ply = (function(Ply) {
 
       // need observers for this model
       Ply.Application.bindAppModelObservers();
-
-      if ($("#content_area").data('default-to-board').length > 0)
-        window.App.set('currentBoard', $("#content_area").data('default-to-board'));
-      else
+      var content_area_data = $("#content_area")
+      if (content_area_data.data('default-to-board').length > 0)
+        window.App.set('currentBoard', content_area_data.data('default-to-board'));
+      else if (content_area_data.data('auto-load') === true)
         window.App.moveToNextBoard();
     }
 

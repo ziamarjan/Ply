@@ -5,11 +5,16 @@
       Ply
     =stylesheet_link_tag    "application", :media => "all"
     =stylesheet_link_tag    "board_assets", :media => "all"
+    =stylesheet_link_tag    "http://fonts.googleapis.com/css?family=Droid+Sans", :media => "all"
     =javascript_include_tag "application"
     =javascript_include_tag "board_assets"
     =csrf_meta_tags
   %body
-    #content_area{:"data-default-to-board" => @auto_load.eql?(false) ? @board.name : ""}
-      =yield
+    #content_area{:"data-devise-active" => @devise_active.to_s, :"data-auto-load" => @auto_load.to_s, :"data-default-to-board" => @auto_load.eql?(false) && defined?(@board).present? ? @board.name : ""}
+      -if @devise_active
+        #devise_area
+          =yield
+      -else
+        =yield
     #transition_area
     #logo_area

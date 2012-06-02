@@ -1,5 +1,7 @@
 Ply::Application.routes.draw do
 
+  devise_for :users
+
   def board_resources
     match "/board/:board_name" => "boards#run_board"
 
@@ -14,7 +16,7 @@ Ply::Application.routes.draw do
   end
 
   def root_resources
-    match "/" => "root#index"
+    root :to => "root#index"
 
     match "/info/next_board" => "root#next_board"
   end
