@@ -69,7 +69,7 @@ var Ply = (function(Ply) {
 
       // need observers for this model
       Ply.Application.bindAppModelObservers();
-      var content_area_data = $("#content_area")
+      var content_area_data = $("body")
       if (content_area_data.data('default-to-board').length > 0)
         window.App.set('currentBoard', content_area_data.data('default-to-board'));
       else
