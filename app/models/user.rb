@@ -25,6 +25,10 @@ class User
   field :groups, :type => Array, :default => [] # array of groups
   before_save :standardise_groups
 
+  field :auto_login_from_ips, :type => Array, :default => [] # automatically auth a user based on their IP
+
+  field :name, :type => String
+
   def standardise_groups
     self.groups = self.groups.map {|g| g.to_sym}
   end

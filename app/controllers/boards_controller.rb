@@ -57,6 +57,7 @@ class BoardsController < ApplicationController
 
   def info
     res = {:board_class_name => board.name.to_s.classify, :update_every => board.update_every, :show_for => board.show_for}
+    res[:current_user] = current_user.name unless current_user.nil?
 
     respond_to do |format|
       format.json { render :json => res.to_json }

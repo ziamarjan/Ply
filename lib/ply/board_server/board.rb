@@ -13,7 +13,7 @@ module Ply
         self.show_for = 30.seconds
         self.auth_required = false
         self.groups_allowed = []
-        self.show = false
+        self.show = true
 
         self.name = args[:name] unless args[:name].nil?
         self.template_name = (args[:name].nil? ? args[:template_name] : args[:name])

@@ -17,11 +17,12 @@ var Ply = (function(Ply) {
         moveToNextBoard: function() {
           var this_model = this;
           jQuery.ajax({
-                   url:       '/info/next_board',
+                   url:       '/info/checkin',
                    data:       {app: this_model.getProperties(this_model.publicAttributes)},
                    dataType:  'json',
                    success:   function(result) {
                                 this_model.set('currentBoard', result.next_board);
+                                this_model.set('currentUser', result.current_user);
                                 this_model.populateInfoFromServer();
                               },
                    async:     false
@@ -37,6 +38,7 @@ var Ply = (function(Ply) {
                                 this_model.set("boardClassName", result.board_class_name);
                                 this_model.set("updateEvery", result.update_every);
                                 this_model.set("showFor", result.show_for);
+                                this_model.set('currentUser', result.current_user);
                               },
                    async:     false
           });          
@@ -70,8 +72,10 @@ var Ply = (function(Ply) {
       var content_area_data = $("#content_area")
       if (content_area_data.data('default-to-board').length > 0)
         window.App.set('currentBoard', content_area_data.data('default-to-board'));
-      else if (content_area_data.data('auto-load') === true)
+      else
         window.App.moveToNextBoard();
+
+      window.App.set('autoMove', content_area_data.data('auto-load') === true)
     }
 
 
@@ -79,14 +83,34 @@ var Ply = (function(Ply) {
       window.App.addObserver('currentBoard', Ply.Application.bringBoardIntoView);
       window.App.addObserver('updateEvery', Ply.Application.bindUpdateServices);
       window.App.addObserver('currentBoard', Ply.Application.bindBoardMover);
+      window.App.addObserver('currentUser', Ply.Application.renderUserStatus);
     }
 
     this.bindBoardMover = function(payload) {
       setTimeout(Ply.Application.runBoardMove, (payload.showFor * 1000));
     }
 
+    this.renderUserStatus = function(payload) {
+      if ($("#user_status").length === 0) {
+        var user_status = $("<div id=\"user_status\"></div>");
+        $("body").append(user_status);
+      }
+
+      user_status.html(payload.currentUser);
+      user_status.show("slide", { direction: "right" }, 1000);
+      
+      setTimeout(Ply.Application.hideUserStatus, 10 * 1000)
+    }
+
+    this.hideUserStatus = function(payload) {
+      $("#user_status").hide("slide", { direction: "right" }, 500);
+    }
+
     this.runBoardMove = function() {
-      window.App.moveToNextBoard();
+      if (window.App.autoMove === true)
+        window.App.moveToNextBoard();
+      else
+        setTimeout(Ply.Application.runBoardMove, (window.App.showFor * 1000));
     }
 
     this.bindUpdateServices = function(payload) {

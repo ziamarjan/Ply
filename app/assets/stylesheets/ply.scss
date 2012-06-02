@@ -1,7 +1,9 @@
 $dark: #585858;
+$font: 'Droid Sans', sans-serif;
 
 body {
   background-color: $dark;
+  height: 100%;
 
   #logo_area {
     background-image: image-url("ply.png");
@@ -16,6 +18,48 @@ body {
     margin-bottom: 10px;
 
     z-index: 1;
+  }
+
+  #user_status {
+    display: none;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+
+    background-color: lighten($dark, 20%);
+    color: lighten($dark, 60%);
+
+    padding: 5px;
+    padding-right: 40px;
+    margin-bottom: 65px;
+
+    font-size: 13pt;
+    font-family: $font;
+
+    border-top-left-radius: 13px;
+    border-bottom-left-radius: 13px;
+  }
+
+  #content_area {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    overflow: scroll;
+
+    height: 100%;
+    width: 100%;
+  }
+
+  #transition_area {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    overflow: scroll;
+
+    height: 100%;
+    width: 100%;
   }
 }
 
