@@ -75,7 +75,7 @@ var Ply = (function(Ply) {
       var content_area_data = $("body")
       if (content_area_data.data('default-to-board').length > 0)
         window.App.set('currentBoard', content_area_data.data('default-to-board'));
-      else
+      else if (content_area_data.data('auto-load') === true)
         window.App.moveToNextBoard();
 
       window.App.set('autoMove', content_area_data.data('auto-load') === true)

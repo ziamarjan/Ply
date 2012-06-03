@@ -54,7 +54,7 @@ module Ply
       end
 
       def can_view?(user_obj)
-        return true if self.auth_required.eql?(false) || self.groups_allowed.empty?
+        return true if !(self.requires_auth?)
 
         return false if user_obj.nil?
 

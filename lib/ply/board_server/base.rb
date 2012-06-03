@@ -43,10 +43,13 @@ module Ply
         @boards
       end
 
+      def self.permitted_boards(user_obj)
+        boards.values.select {|b| b.can_view?(user_obj) && b.show.eql?(true)}
+      end
+
       def self.next_board(current, opts = {})
         user_obj = opts[:user]
-        allow_boards = boards.values.select {|b| b.can_view?(user_obj) && b.show.eql?(true)}
-        ordered_boards = allow_boards.sort{|a,b| b.priority <=> a.priority}.map(&:name)
+        ordered_boards = permitted_boards(user_obj).sort{|a,b| b.priority <=> a.priority}.map(&:name)
 
         cur_index = 0
         if current.respond_to?(:to_sym)
