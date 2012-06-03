@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -w
+#!/usr/bin/env ruby
 require 'optparse'
 
 cur_location = File.dirname(__FILE__)
@@ -31,11 +31,11 @@ unless options[:ply_root].eql?(".")
 end
 
 if !(Gem::Specification.find_all_by_name("passenger").empty?)
-  command << "passenger start -e #{options[:environment].to_s} -R #{cur_location}/config.ru"
+  command << "passenger start -p #{options[:port]} -e #{options[:environment].to_s} -R #{cur_location}/config.ru"
 elsif !(Gem::Specification.find_all_by_name("passenger").empty?)
-  command << "thin start -R #{cur_location}/config.ru -e #{options[:environment].to_s}"
+  command << "thin start -p #{options[:port]} -R #{cur_location}/config.ru -e #{options[:environment].to_s}"
 else
-  command << "rails s -c #{cur_location}/config.ru -e #{options[:environment].to_s}"
+  command << "rails s -p #{options[:port]} -c #{cur_location}/config.ru -e #{options[:environment].to_s}"
 end
 
 command << " -d" if options[:daemonize].eql?(true)
