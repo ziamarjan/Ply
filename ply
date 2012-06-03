@@ -4,7 +4,7 @@ require 'optparse'
 cur_location = File.dirname(__FILE__)
 
 
-options = {:port => 3000, :environment => :production, :ply_root => cur_location}
+options = {:port => 3000, :environment => :production, :ply_root => cur_location, :daemonize => false}
 OptionParser.new do |opts|
   opts.banner = "Usage: ply [options]"
 
@@ -16,6 +16,9 @@ OptionParser.new do |opts|
   end
   opts.on("-r", "--ply_root ROOT", String, "Location of Ply boards") do |p|
     options[:ply_root] = p
+  end
+  opts.on("-b", "--daemonize", "Run in background") do |p|
+    options[:daemonize] = p
   end
 end.parse!
 
@@ -34,5 +37,7 @@ elsif !(Gem::Specification.find_all_by_name("passenger").empty?)
 else
   command << "rails s -c #{cur_location}/config.ru -e #{options[:environment].to_s}"
 end
+
+command << " -d" if options[:daemonize].eql?(true)
 
 exec command
