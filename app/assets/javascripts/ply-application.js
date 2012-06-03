@@ -25,6 +25,9 @@ var Ply = (function(Ply) {
                                 this_model.set('currentUser', result.current_user);
                                 this_model.populateInfoFromServer();
                               },
+                   error:     function(result) {
+                                setTimeout(Ply.Application.retryBoardMove, 2000);
+                              }, 
                    async:     false
           });
         },
@@ -104,6 +107,10 @@ var Ply = (function(Ply) {
 
     this.hideUserStatus = function(payload) {
       $("#user_status").hide("slide", { direction: "right" }, 500);
+    }
+
+    this.retryBoardMove = function() {
+      window.App.moveToNextBoard();
     }
 
     this.runBoardMove = function() {
@@ -199,7 +206,10 @@ var Ply = (function(Ply) {
         Ply.Application.activeObserver = ns;
       }
 
-      $("#previous_content").fadeOut('slow', Ply.Application.showNewContent);
+      $("#previous_content").transition({
+        opacity: 0,
+        scale: 4.0
+      }, Ply.Application.showNewContent)
     }
 
     this.showNewContent = function() {

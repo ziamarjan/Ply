@@ -21,7 +21,7 @@ end.parse!
 
 puts "Starting ply with #{options}" if options[:environment].eql?(:development)
 
-command = options[:environment].eql?(:production) ? "rake -f #{cur_location}/Rakefile assets:precompile && " : ""
+command = options[:environment].eql?(:production) ? "PLY_ROOT='#{options[:ply_root]}' rake -f #{cur_location}/Rakefile assets:precompile && " : ""
 
 unless options[:ply_root].eql?(".")
   command << "PLY_ROOT='#{options[:ply_root]}' "
