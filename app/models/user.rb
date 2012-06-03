@@ -9,6 +9,9 @@ class User
   field :email,              :type => String, :default => ""
   field :encrypted_password, :type => String, :default => ""
 
+  validates_presence_of :email
+  validates_presence_of :encrypted_password
+
   ## Rememberable
   field :remember_created_at, :type => Time
 

@@ -94,9 +94,12 @@ var Ply = (function(Ply) {
     }
 
     this.renderUserStatus = function(payload) {
+      var user_status = null;
       if ($("#user_status").length === 0) {
-        var user_status = $("<div id=\"user_status\"></div>");
+        user_status = $("<div id=\"user_status\"></div>");
         $("body").append(user_status);
+      } else {
+        user_status = $("#user_status");
       }
 
       user_status.html(payload.currentUser);
